@@ -2,6 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import Attendance from './pages/Attendance'
+import AcademicPerformance from './pages/AcademicPerformance'
+import Backlogs from './pages/Backlogs'
+import Fees from './pages/Fees'
+import Notifications from './pages/Notifications'
+import ChatbotAssistant from './pages/ChatbotAssistant'
 import DashboardLayout from './components/DashboardLayout'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -34,12 +40,12 @@ function App() {
           }
         >
           <Route index element={<Dashboard />} />
-          <Route path="attendance" element={<Placeholder title="Attendance" />} />
-          <Route path="academic" element={<Placeholder title="Academic Performance" />} />
-          <Route path="backlogs" element={<Placeholder title="Backlogs" />} />
-          <Route path="fees" element={<Placeholder title="Fee Status" />} />
-          <Route path="notifications" element={<Placeholder title="Notifications" />} />
-          <Route path="chatbot" element={<Placeholder title="Chatbot Assistant" />} />
+          <Route path="attendance" element={<Attendance />} />
+          <Route path="academic" element={<AcademicPerformance />} />
+          <Route path="backlogs" element={<Backlogs />} />
+          <Route path="fees" element={<Fees />} />
+          <Route path="notifications" element={<Notifications />} />
+          <Route path="chatbot" element={<ChatbotAssistant />} />
         </Route>
 
         {/* Catch-all: redirect unknown paths to landing */}

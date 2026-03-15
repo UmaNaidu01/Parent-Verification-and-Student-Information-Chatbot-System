@@ -22,7 +22,7 @@ export default function DashboardLayout() {
       />
       <div className="flex">
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <main className="flex-1 p-4 md:p-6 lg:p-8 pt-20 lg:pt-6 lg:ml-64 transition-all duration-300">
+        <main className="flex-1 p-4 md:p-6 lg:p-8 pt-20 lg:pt-24 lg:ml-64 transition-all duration-300">
           <Outlet />
         </main>
       </div>

@@ -1,0 +1,243 @@
+﻿Connected to MongoDB
+
+Collections found: [
+  'notifications',
+  'attendances',
+  'academicstatuses',
+  'insights',
+  'students',
+  'financials',
+  'communications',
+  'academicperformances'
+]
+
+Collection: notifications (3 documents)
+Sample document: {
+  "_id": "69b572734a183f0ae1a14ef7",
+  "regNumber": "231fa04g25",
+  "upcomingExams": [
+    "Final exam for Data Structures on Dec 20"
+  ],
+  "assignmentDeadlines": [
+    "Assignment for Operating Systems due in 3 days"
+  ],
+  "academicCalendarUpdates": [
+    "Winter vacation starts from Dec 25"
+  ],
+  "__v": 0
+}
+
+Collection: attendances (3 documents)
+Sample document: {
+  "_id": "69b4d815d5e7a646b60fe946",
+  "regNumber": "231fa04g25",
+  "__v": 0,
+  "lowAttendanceAlerts": [],
+  "overallPercentage": 85.5,
+  "semesterWise": [
+    {
+      "semester": 1,
+      "attendance": 84.86021944725417,
+      "_id": "69b572734a183f0ae1a14ec9"
+    },
+    {
+      "semester": 2,
+      "attendance": 84.07230087254052,
+      "_id": "69b572734a183f0ae1a14eca"
+    },
+    {
+      "semester": 3,
+      "attendance": 83.28135940792315,
+      "_id": "69b572734a183f0ae1a14ecb"
+    },
+    {
+      "semester": 4,
+      "attendance": 88.41876020316208,
+      "_id": "69b572734a183f0ae1a14ecc"
+    },
+    {
+      "semester": 5,
+      "attendance": 84.76820570514919,
+      "_id": "69b572734a183f0ae1a14ecd"
+    }
+  ],
+  "subjectWise": [
+    {
+      "subject": "Data Structures",
+      "attendance": 88,
+      "_id": "69b572734a183f0ae1a14ec5"
+    },
+    {
+      "subject": "Operating Systems",
+      "attendance": 76,
+      "_id": "69b572734a183f0ae1a14ec6"
+    },
+    {
+      "subject": "Computer Networks",
+      "attendance": 92,
+      "_id": "69b572734a183f0ae1a14ec7"
+    },
+    {
+      "subject": "Artificial Intelligence",
+      "attendance": 80,
+      "_id": "69b572734a183f0ae1a14ec8"
+    }
+  ]
+}
+
+Collection: academicstatuses (3 documents)
+Sample document: {
+  "_id": "69b4d815d5e7a646b60fe947",
+  "regNumber": "231fa04g25",
+  "__v": 0,
+  "courseCompletionStatus": "In Progress",
+  "incompleteSubjects": [],
+  "numberOfBacklogs": 1,
+  "repeatedSubjects": [
+    "Example Subject"
+  ]
+}
+
+Collection: insights (3 documents)
+Sample document: {
+  "_id": "69b4d815d5e7a646b60fe94b",
+  "regNumber": "231fa04g25",
+  "__v": 0,
+  "improvementSuggestions": [
+    "Keep up the consistent effort!"
+  ],
+  "strongSubjects": [
+    "Data Structures"
+  ],
+  "weakSubjects": [
+    "Operating Systems"
+  ]
+}
+
+Collection: students (3 documents)
+Sample document: {
+  "_id": "69b574f9ef68b756d56af54f",
+  "regNumber": "231fa04g25",
+  "name": "Ujjwal Kriti",
+  "branch": "Computer Science and Engineering",
+  "semester": 6,
+  "phone": "8709870656",
+  "attendance": 85.5,
+  "cgpa": 8.2,
+  "fees": 25000,
+  "backlogs": 1,
+  "__v": 0
+}
+
+Collection: financials (3 documents)
+Sample document: {
+  "_id": "69b4d815d5e7a646b60fe949",
+  "regNumber": "231fa04g25",
+  "__v": 0,
+  "feePaymentStatus": "Pending",
+  "paymentHistory": [
+    {
+      "date": "2023-01-15",
+      "amount": 40000,
+      "receipt": "REC-999",
+      "_id": "69b572734a183f0ae1a14ef9"
+    }
+  ],
+  "pendingFees": 25000,
+  "scholarshipStatus": "General"
+}
+
+Collection: communications (3 documents)
+Sample document: {
+  "_id": "69b4d815d5e7a646b60fe94a",
+  "regNumber": "231fa04g25",
+  "__v": 0,
+  "academicOfficeContacts": [
+    {
+      "department": "Admin",
+      "email": "admin@college.edu",
+      "_id": "69b572734a183f0ae1a14efd"
+    }
+  ],
+  "classAdvisor": {
+    "name": "Prof. Johnson",
+    "email": "johnson@college.edu",
+    "phone": "9000000000"
+  },
+  "facultyContact": [
+    {
+      "role": "Professor",
+      "name": "Dr. Smith",
+      "email": "smith@college.edu",
+      "_id": "69b572734a183f0ae1a14efc"
+    }
+  ]
+}
+
+Collection: academicperformances (3 documents)
+Sample document: {
+  "_id": "69b4d815d5e7a646b60fe948",
+  "regNumber": "231fa04g25",
+  "__v": 0,
+  "currentCGPA": 8.2,
+  "semesterWiseCGPA": [
+    {
+      "semester": 1,
+      "sgpa": 8.6,
+      "_id": "69b572734a183f0ae1a14ee2"
+    },
+    {
+      "semester": 2,
+      "sgpa": 8.4,
+      "_id": "69b572734a183f0ae1a14ee3"
+    },
+    {
+      "semester": 3,
+      "sgpa": 7.8,
+      "_id": "69b572734a183f0ae1a14ee4"
+    },
+    {
+      "semester": 4,
+      "sgpa": 8,
+      "_id": "69b572734a183f0ae1a14ee5"
+    },
+    {
+      "semester": 5,
+      "sgpa": 8.2,
+      "_id": "69b572734a183f0ae1a14ee6"
+    }
+  ],
+  "subjectWiseMarks": [
+    {
+      "subject": "Data Structures",
+      "grade": "A",
+      "marks": 85,
+      "_id": "69b572734a183f0ae1a14ee7"
+    },
+    {
+      "subject": "Operating Systems",
+      "grade": "B",
+      "marks": 72,
+      "_id": "69b572734a183f0ae1a14ee8"
+    },
+    {
+      "subject": "Computer Networks",
+      "grade": "O",
+      "marks": 95,
+      "_id": "69b572734a183f0ae1a14ee9"
+    },
+    {
+      "subject": "Artificial Intelligence",
+      "grade": "A",
+      "marks": 82,
+      "_id": "69b572734a183f0ae1a14eea"
+    }
+  ],
+  "yearWiseCGPA": [
+    {
+      "year": 1,
+      "cgpa": 8.2,
+      "_id": "69b572734a183f0ae1a14ee1"
+    }
+  ]
+}

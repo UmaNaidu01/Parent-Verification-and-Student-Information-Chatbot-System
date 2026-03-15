@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost:27017/chatboat', {
 
 const StudentSchema = new mongoose.Schema({
   regNumber: { type: String, required: true, unique: true },
-  parentPhone: { type: String, required: true },
+  phone: { type: String, required: true },
   name: String,
   branch: String,
   semester: Number

@@ -5,6 +5,7 @@ import AttendanceChart from '../components/Charts/AttendanceChart'
 import CGPATrendChart from '../components/Charts/CGPATrendChart'
 import AcademicAlerts from '../components/AcademicAlerts'
 import PerformanceInsights from '../components/PerformanceInsights'
+import QuickContacts from '../components/QuickContacts'
 
 export default function Dashboard() {
   const [data, setData] = useState(null)
@@ -115,9 +116,10 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <AcademicAlerts alerts={data.alerts} />
         <PerformanceInsights insights={data.performanceInsights} />
+        <QuickContacts />
       </div>
     </div>
   )
