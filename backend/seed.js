@@ -1,183 +1,183 @@
 const mongoose = require('mongoose');
 const Models = require('./database');
+const bcrypt = require('bcryptjs');
+const xlsx = require('xlsx');
+const path = require('path');
 
-const studentsData = [
-  {
-    regNumber: '231fa04g25',
-    phone: '8709870656',
-    name: 'Ujjwal Kriti',
-    branch: 'Computer Science and Engineering',
-    semester: 6,
-    attendance: 85.5,
-    subjects: [
-      { subject: 'Data Structures', attendance: 88, marks: 85, grade: 'A' },
-      { subject: 'Operating Systems', attendance: 76, marks: 72, grade: 'B' },
-      { subject: 'Computer Networks', attendance: 92, marks: 95, grade: 'O' },
-      { subject: 'Artificial Intelligence', attendance: 80, marks: 82, grade: 'A' }
-    ],
-    semCGPA: [
-      { semester: 1, sgpa: 8.6 }, { semester: 2, sgpa: 8.4 }, 
-      { semester: 3, sgpa: 7.8 }, { semester: 4, sgpa: 8.0 }, 
-      { semester: 5, sgpa: 8.2 }
-    ],
-    fees: 25000,
-    backlogs: 1
-  },
-  {
-    regNumber: '231fa04g26',
-    phone: '9876543210',
-    name: 'Amit Kumar',
-    branch: 'Information Technology',
-    semester: 4,
-    attendance: 78.2,
-    subjects: [
-      { subject: 'Database Management', attendance: 82, marks: 78, grade: 'B+' },
-      { subject: 'Software Engineering', attendance: 70, marks: 65, grade: 'C' },
-      { subject: 'Python Programming', attendance: 85, marks: 88, grade: 'A' },
-      { subject: 'Discrete Math', attendance: 75, marks: 70, grade: 'B' }
-    ],
-    semCGPA: [
-      { semester: 1, sgpa: 7.5 }, { semester: 2, sgpa: 7.8 }, 
-      { semester: 3, sgpa: 8.1 }
-    ],
-    fees: 12000,
-    backlogs: 0
-  },
-  {
-    regNumber: '231fa04g27',
-    phone: '9123456789',
-    name: 'Priya Singh',
-    branch: 'Electronics and Communication',
-    semester: 2,
-    attendance: 92.1,
-    subjects: [
-      { subject: 'Digital Electronics', attendance: 95, marks: 92, grade: 'O' },
-      { subject: 'Network Analysis', attendance: 88, marks: 85, grade: 'A' },
-      { subject: 'Signals & Systems', attendance: 90, marks: 80, grade: 'A' },
-      { subject: 'Engineering Physics', attendance: 94, marks: 88, grade: 'A' }
-    ],
-    semCGPA: [
-      { semester: 1, sgpa: 8.9 }
-    ],
-    fees: 0,
-    backlogs: 0
-  },
-  {
-    regNumber: '231fa04g28',
-    phone: '8888877777',
-    name: 'Rahul Verma',
-    branch: 'Mechanical Engineering',
-    semester: 8,
-    attendance: 62.5,
-    subjects: [
-      { subject: 'Thermodynamics', attendance: 65, marks: 45, grade: 'D' },
-      { subject: 'Heat Transfer', attendance: 55, marks: 38, grade: 'F' },
-      { subject: 'Fluid Mechanics', attendance: 70, marks: 52, grade: 'C' },
-      { subject: 'Kinematics', attendance: 60, marks: 40, grade: 'E' }
-    ],
-    semCGPA: [
-      { semester: 1, sgpa: 6.5 }, { semester: 2, sgpa: 6.8 }, 
-      { semester: 3, sgpa: 7.1 }, { semester: 4, sgpa: 6.2 }, 
-      { semester: 5, sgpa: 6.5 }, { semester: 6, sgpa: 6.0 }, 
-      { semester: 7, sgpa: 6.3 }
-    ],
-    fees: 45000,
-    backlogs: 3
-  },
-  {
-    regNumber: '231fa04g29',
-    phone: '7777766666',
-    name: 'Sarah Khan',
-    branch: 'Biotechnology',
-    semester: 3,
-    attendance: 96.5,
-    subjects: [
-      { subject: 'Genetics', attendance: 98, marks: 95, grade: 'O' },
-      { subject: 'Microbiology', attendance: 95, marks: 92, grade: 'O' }
-    ],
-    semCGPA: [{ semester: 1, sgpa: 9.2 }, { semester: 2, sgpa: 9.4 }],
-    fees: 0,
-    backlogs: 0
-  },
-  {
-    regNumber: '231fa04g30',
-    phone: '6666655555',
-    name: 'Arjun Reddy',
-    branch: 'Computer Science and Engineering',
-    semester: 5,
-    attendance: 82.0,
-    subjects: [
-      { subject: 'Algorithms', attendance: 85, marks: 78, grade: 'B+' },
-      { subject: 'Web Technologies', attendance: 80, marks: 82, grade: 'A' }
-    ],
-    semCGPA: [{ semester: 1, sgpa: 7.8 }, { semester: 2, sgpa: 8.0 }, { semester: 3, sgpa: 8.2 }, { semester: 4, sgpa: 7.5 }],
-    fees: 15000,
-    backlogs: 0
-  }
-];
+const semesterSubjects = {
+  1: ['Mathematics I', 'Physics I', 'Chemistry', 'Engineering Graphics', 'Computer Programming'],
+  2: ['Mathematics II', 'Physics II', 'Data Structures', 'Basic Electrical', 'Environmental Science'],
+  3: ['DBMS', 'Discrete Math', 'DLD', 'Web Technologies', 'Software Engineering'],
+  4: ['Algorithms', 'Operating Systems', 'Computer Networks', 'Automata Theory', 'Microprocessors'],
+  5: ['Machine Learning', 'Compiler Design', 'Cyber Security', 'Cloud Computing', 'Data Analytics'],
+  6: ['Artificial Intelligence', 'Blockchain', 'Deep Learning', 'Software Testing', 'IOT']
+};
 
 async function seedData() {
   try {
+    const workbook = xlsx.readFile(path.join(__dirname, '../Student_Profile_System.xlsx'));
+
+    const profileData = xlsx.utils.sheet_to_json(workbook.Sheets['Student_Profile']);
+    const financeData = xlsx.utils.sheet_to_json(workbook.Sheets['Finance']);
+    const backlogsData = xlsx.utils.sheet_to_json(workbook.Sheets['Backlogs']);
+    const marksData = xlsx.utils.sheet_to_json(workbook.Sheets['Internal_Marks']);
+    const academicsData = xlsx.utils.sheet_to_json(workbook.Sheets['Academics']);
+    const attendanceData = xlsx.utils.sheet_to_json(workbook.Sheets['Attendance']);
+
+    const studentsMap = {};
+
+    profileData.forEach(row => {
+      studentsMap[row.registerno] = {
+        regNumber: row.registerno,
+        phone: row.ParentPhone?.toString(),
+        name: row.name,
+        branch: row.Branch,
+        semester: 6, // Forced to 6 as requested
+        email: row.studentmailid,
+        attendance: 0,
+        subjects: [],
+        semCGPA: [],
+        fees: 0,
+        backlogs: 0,
+        repeatedSubjects: []
+      };
+    });
+
+    financeData.forEach(row => {
+      if (studentsMap[row.registerno]) {
+        studentsMap[row.registerno].fees = row.PendingAmount || 0;
+      }
+    });
+
+    backlogsData.forEach(row => {
+      if (studentsMap[row.registerno]) {
+        studentsMap[row.registerno].backlogs = row.TotalBacklogs || 0;
+        if (row.Subjects) {
+          studentsMap[row.registerno].repeatedSubjects = row.Subjects.split(',').map(s => s.trim());
+        }
+      }
+    });
+
+    // Populate students with 6 semesters and 5 subjects each
+    for (const reg in studentsMap) {
+      let overallAttendanceSum = 0;
+      let totalSubjects = 0;
+      const student = studentsMap[reg];
+
+      for (let sem = 1; sem <= 6; sem++) {
+        let semSgpaSum = 0;
+        const subs = semesterSubjects[sem];
+
+        subs.forEach(sub => {
+          // generate random marks and attendance
+          const att = Math.floor(Math.random() * 30) + 70; // 70 to 99
+          const marks = Math.floor(Math.random() * 40) + 60; // 60 to 99
+          let grade = 'C';
+          if (marks >= 90) grade = 'O';
+          else if (marks >= 80) grade = 'A';
+          else if (marks >= 70) grade = 'B';
+
+          student.subjects.push({
+            subject: sub,
+            semester: sem,
+            attendance: att,
+            marks: marks,
+            grade: grade,
+            m1: Math.floor(marks * 0.4),
+            m2: Math.floor(marks * 0.4)
+          });
+
+          semSgpaSum += (marks / 10);
+          overallAttendanceSum += att;
+          totalSubjects++;
+        });
+
+        student.semCGPA.push({
+          semester: sem,
+          sgpa: parseFloat((semSgpaSum / 5).toFixed(2))
+        });
+      }
+
+      student.attendance = totalSubjects > 0 ? parseFloat((overallAttendanceSum / totalSubjects).toFixed(2)) : 80;
+    }
+
+    const studentsData = Object.values(studentsMap);
+
     for (const data of studentsData) {
       const { regNumber, phone, name, branch, semester } = data;
 
-      // 1. Insert Student
-      await Models.Student.findOneAndUpdate(
-        { regNumber },
-        { regNumber, parentPhone: phone, name, branch, semester },
-        { upsert: true, new: true }
-      );
+      let currentCGPA = 0;
+      if (data.semCGPA.length > 0) {
+        currentCGPA = (data.semCGPA.reduce((acc, curr) => acc + curr.sgpa, 0) / data.semCGPA.length).toFixed(2);
+      }
 
-      // 2. Insert Attendance
-      await Models.Attendance.findOneAndUpdate(
+      await Models.Student.findOneAndUpdate(
         { regNumber },
         {
           regNumber,
-          overallPercentage: data.attendance,
-          subjectWise: data.subjects.map(s => ({ subject: s.subject, attendance: s.attendance })),
-          semesterWise: data.semCGPA.map(s => ({ semester: s.semester, attendance: 80 + Math.random() * 15 })),
-          lowAttendanceAlerts: data.attendance < 75 ? [`Low overall attendance: ${data.attendance}%`] : []
+          phone: phone || '0000000000',
+          name: name || 'Unknown',
+          branch: branch || 'General',
+          semester: semester || 1,
+          email: data.email || `${regNumber}@example.com`,
+          attendance: data.attendance || 0,
+          cgpa: currentCGPA || 0,
+          fees: data.fees || 0,
+          backlogs: data.backlogs || 0
         },
         { upsert: true, new: true }
       );
 
-      // 3. Insert Academic Status
+      await Models.Attendance.findOneAndUpdate(
+        { regNumber },
+        {
+          regNumber,
+          overallPercentage: data.attendance || 0,
+          subjectWise: data.subjects.map(s => ({ subject: s.subject, attendance: s.attendance })),
+          semesterWise: data.semCGPA.map(s => ({ semester: s.semester, attendance: 80 + Math.random() * 15 })),
+          lowAttendanceAlerts: data.attendance < 75 ? [`Low overall attendance: ${data.attendance || 0}%`] : []
+        },
+        { upsert: true, new: true }
+      );
+
       await Models.AcademicStatus.findOneAndUpdate(
         { regNumber },
         {
           regNumber,
           numberOfBacklogs: data.backlogs,
-          repeatedSubjects: data.backlogs > 0 ? ['Example Subject'] : [],
+          repeatedSubjects: data.repeatedSubjects || [],
           incompleteSubjects: [],
-          courseCompletionStatus: 'In Progress'
+          courseCompletionStatus: semester >= 6 ? 'Completed' : 'In Progress'
         },
         { upsert: true, new: true }
       );
 
-      // 4. Insert Academic Performance
-      const currentCGPA = (data.semCGPA.reduce((acc, curr) => acc + curr.sgpa, 0) / data.semCGPA.length).toFixed(2);
       await Models.AcademicPerformance.findOneAndUpdate(
         { regNumber },
         {
           regNumber,
           currentCGPA,
-          yearWiseCGPA: [{ year: 1, cgpa: currentCGPA }],
+          yearWiseCGPA: [
+            { year: 1, cgpa: ((data.semCGPA[0].sgpa + data.semCGPA[1].sgpa) / 2).toFixed(2) },
+            { year: 2, cgpa: ((data.semCGPA[2].sgpa + data.semCGPA[3].sgpa) / 2).toFixed(2) },
+            { year: 3, cgpa: ((data.semCGPA[4].sgpa + data.semCGPA[5].sgpa) / 2).toFixed(2) }
+          ],
           semesterWiseCGPA: data.semCGPA,
-          subjectWiseMarks: data.subjects.map(s => ({ subject: s.subject, grade: s.grade, marks: s.marks }))
+          subjectWiseMarks: data.subjects.map(s => ({ subject: s.subject, grade: s.grade, marks: s.marks, semester: s.semester }))
         },
         { upsert: true, new: true }
       );
 
-      // 5. Insert Notifications
       await Models.Notification.deleteMany({ regNumber });
-      await Models.Notification.create({
-        regNumber,
-        upcomingExams: [`Final exam for ${data.subjects[0].subject} on Dec 20`],
-        assignmentDeadlines: [`Assignment for ${data.subjects[1].subject} due in 3 days`],
-        academicCalendarUpdates: ['Winter vacation starts from Dec 25']
-      });
+      if (data.subjects.length > 0) {
+        await Models.Notification.create({
+          regNumber,
+          upcomingExams: [`Final exam for ${data.subjects[0].subject} on Dec 20`],
+          assignmentDeadlines: data.subjects.length > 1 ? [`Assignment for ${data.subjects[1].subject} due in 3 days`] : [],
+          academicCalendarUpdates: ['Winter vacation starts from Dec 25']
+        });
+      }
 
-      // 6. Insert Financials
       await Models.Financial.findOneAndUpdate(
         { regNumber },
         {
@@ -190,7 +190,6 @@ async function seedData() {
         { upsert: true, new: true }
       );
 
-      // 7. Insert Communication
       await Models.Communication.findOneAndUpdate(
         { regNumber },
         {
@@ -202,20 +201,43 @@ async function seedData() {
         { upsert: true, new: true }
       );
 
-      // 8. Insert Insights
       await Models.Insight.findOneAndUpdate(
         { regNumber },
         {
           regNumber,
-          strongSubjects: [data.subjects[0].subject],
-          weakSubjects: data.backlogs > 0 ? [data.subjects[1].subject] : [],
+          strongSubjects: data.subjects.length > 0 ? [data.subjects[0].subject] : [],
+          weakSubjects: data.backlogs > 0 && data.subjects.length > 1 ? [data.subjects[1].subject] : [],
           improvementSuggestions: ['Keep up the consistent effort!']
+        },
+        { upsert: true, new: true }
+      );
+
+      await Models.IntraSemesterMarks.findOneAndUpdate(
+        { regNumber },
+        {
+          regNumber,
+          marks: data.subjects.map(s => ({
+            subject: s.subject,
+            semester: s.semester,
+            m1: s.m1 || 0,
+            m2: s.m2 || 0,
+            t1: Math.floor(s.marks * 0.4) - Math.floor(Math.random() * 3),
+            total: s.marks
+          }))
         },
         { upsert: true, new: true }
       );
     }
 
-    console.log(`Successfully seeded ${studentsData.length} student records into MongoDB!`);
+    const adminEmail = 'admin@college.edu';
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+    await Models.Admin.findOneAndUpdate(
+      { email: adminEmail },
+      { email: adminEmail, password: hashedPassword, name: 'System Admin' },
+      { upsert: true, new: true }
+    );
+
+    console.log(`Successfully seeded ${studentsData.length} student records and 1 Admin into MongoDB!`);
   } catch (err) {
     console.error('Error seeding data:', err);
   } finally {
@@ -224,5 +246,6 @@ async function seedData() {
 }
 
 mongoose.connection.once('open', () => {
+  console.log("Connected to DB, running seed data...");
   seedData();
 });

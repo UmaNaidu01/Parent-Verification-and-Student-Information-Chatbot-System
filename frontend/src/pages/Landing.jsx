@@ -250,10 +250,17 @@ export default function Landing() {
         </section>
 
         {/* Steps section */}
-        <section id="how-it-works" className="relative py-24 sm:py-32 overflow-hidden bg-white dark:bg-[#0b0f19]">
-          {/* Decorative elements */}
-          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[30rem] h-[30rem] bg-indigo-200/30 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
-          <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[30rem] h-[30rem] bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+        <section id="how-it-works" className="relative py-24 sm:py-32 overflow-hidden">
+          {/* Background Image with Overlay */}
+          <div className="absolute inset-0 z-0">
+            <div 
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('https://vignan.ac.in/newvignan/assets/images/home/image-13.webp')` }}
+            ></div>
+            <div className="absolute inset-0 bg-slate-900/90 dark:bg-[#0b0f19]/90 mix-blend-multiply"></div>
+            <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-slate-900/80 dark:from-[#0b0f19]/80 to-transparent pointer-events-none"></div>
+            <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-slate-900 dark:from-[#0b0f19] to-transparent pointer-events-none w-full"></div>
+          </div>
 
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid lg:grid-cols-12 gap-16 items-center">
@@ -265,10 +272,10 @@ export default function Landing() {
                 transition={{ duration: 0.6 }}
                 className="lg:col-span-5 lg:order-last"
               >
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-6">
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-6 drop-shadow-md">
                   Access University Insights Effortlessly
                 </h2>
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-10 font-medium">
+                <p className="text-lg text-indigo-100 mb-10 font-medium drop-shadow-sm">
                   Vignan's parent portal bridges the gap between home and institution. Securely connect to your child's academic journey in just a few steps.
                 </p>
                 <div className="space-y-8">
@@ -285,14 +292,14 @@ export default function Landing() {
                       transition={{ delay: idx * 0.15, duration: 0.5 }}
                       className="flex items-start gap-5 group"
                     >
-                      <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
+                      <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white font-bold group-hover:scale-110 group-hover:bg-indigo-500 transition-all shadow-[0_4px_20px_rgba(255,255,255,0.1)] border border-white/20">
                         {s.step}
                       </div>
                       <div>
-                        <h4 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2 mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        <h4 className="font-bold text-lg text-white flex items-center gap-2 mb-1 group-hover:text-indigo-300 transition-colors drop-shadow-sm">
                           <s.icon className="w-5 h-5" /> {s.title}
                         </h4>
-                        <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{s.text}</p>
+                        <p className="text-indigo-50/80 text-sm leading-relaxed">{s.text}</p>
                       </div>
                     </motion.div>
                   ))}
@@ -304,13 +311,13 @@ export default function Landing() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="lg:col-span-7 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-slate-800/80 dark:to-slate-900 rounded-[2.5rem] p-8 sm:p-12 shadow-inner border border-white/50 dark:border-slate-700/50 relative overflow-hidden"
+                className="lg:col-span-7 bg-white/10 backdrop-blur-2xl rounded-[2.5rem] p-8 sm:p-12 shadow-2xl border border-white/20 relative overflow-hidden group"
               >
                 {/* Decorative blob in container */}
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-300/40 dark:bg-purple-600/20 rounded-full blur-3xl"></div>
-                <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-300/40 dark:bg-indigo-600/20 rounded-full blur-3xl"></div>
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/30 rounded-full blur-3xl group-hover:bg-purple-500/40 transition-colors duration-500"></div>
+                <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-500/30 rounded-full blur-3xl group-hover:bg-indigo-500/40 transition-colors duration-500"></div>
 
-                <div className="relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/60 dark:border-slate-700 hover:shadow-[0_20px_60px_-15px_rgba(79,70,229,0.2)] transition-shadow duration-500">
+                <div className="relative bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/50 dark:border-slate-700/50 hover:shadow-[0_20px_60px_-15px_rgba(255,255,255,0.1)] transition-shadow duration-500">
                   {/* Dummy UI header */}
                   <div className="border-b border-slate-200/50 dark:border-slate-800/50 p-4 font-bold text-slate-900 dark:text-white flex items-center gap-3 bg-white/50 dark:bg-slate-900/50">
                     <div className="flex gap-2 mr-2">
